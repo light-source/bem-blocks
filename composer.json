@@ -1,0 +1,14 @@
+{
+  "name": "lightsource/bem-blocks",
+  "type": "library",
+  "description": "",
+  "license": "GPL-2.0-only",
+  "require": {
+    "twig/twig": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "LightSource\\BemBlocks\\": "Classes"
+    }
+  }
+}
