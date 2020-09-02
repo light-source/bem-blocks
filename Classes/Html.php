@@ -76,7 +76,7 @@ final class Html {
 
 		try {
 
-			$this->_twigLoader = new FilesystemLoader( $settings->getPathToBlocksDir() );
+			$this->_twigLoader = new FilesystemLoader( $settings->getBlocksDirPath() );
 			$this->_twigEnvironment = new Environment( $this->_twigLoader, $settings->getTwigArgs() );
 
 		} catch ( Exception $ex ) {
