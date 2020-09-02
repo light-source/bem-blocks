@@ -185,14 +185,15 @@ abstract class BLOCK {
 
 	/**
 	 * @param array $args
+	 * @param bool $isPrint
 	 *
 	 * @return string
 	 */
-	final public function render( $args = [] ) {
+	final public function render( $args = [], $isPrint = false ) {
 
 		$args = array_merge( $this->getTemplateArgs(), $args );
 
-		return Html::Instance()->render( self::GetTwigTemplate(), $args );
+		return Html::Instance()->render( self::GetTwigTemplate(), $args, $isPrint );
 	}
 
 }
