@@ -34,7 +34,7 @@ An example is below.
 
 ## Example of usage
 
-a) Include and setup the package
+##### a) Include and setup the package
 
 ```
 use LightSource\BemBlocks\Settings;
@@ -45,7 +45,7 @@ Settings::Instance()->setBlocksDirPath( '[Path to a blocks directory here]' );
 Settings::Instance()->setBlocksDirNamespace( '[Blocks directory namespace here]' ); // e.g. Project\Blocks
 ```
 
-b) Create a block class which will extends the BLOCK class and override the getTemplateArgs() method
+##### b) Create a block class which will extends the BLOCK class and override the getTemplateArgs() method
 
 ```
 use LightSource\BemBlocks\BLOCK;
@@ -95,10 +95,16 @@ class FirstHeader extends BLOCK {
 }
 ```
 
-c) Render the block in a target place
+##### c) Render the block in a target place
 
 ```
 $firstHeader = new FirstHeader(1);
 $firstHeader->load();
 echo $firstHeader->render();
 ```
+
+## Additional
+
+Feel free to extend the BLOCK class functionality, e.g. you can add auto loading resources with using a built-in InitAll() method.
+ 
+[An example auto loading in WordPress](https://github.com/light-source/wp-theme-bones/blob/master/resources/Blocks/BLOCK.php)
