@@ -54,12 +54,10 @@ abstract class CONTROLLER {
 		// exclude ., ..
 		$fs = array_diff( scandir( $directory ), [ '.', '..' ] );
 
-		$controllerSuffixPreg = '/' . Settings::Instance()->getControllerSuffix() . '$/';
+		$controllerFilePreg = '/' . Settings::Instance()->getControllerSuffix() . '.php$/';
 
-		$phpFileNames = HELPER::ArrayFilter( $fs, function ( $f ) use ( $controllerSuffixPreg ) {
-			return ( 1 === preg_match( '/.php$/', $f ) &&
-			         'index.php' !== $f &&
-			         1 === preg_match( $controllerSuffixPreg, $f ) );
+		$phpFileNames = HELPER::ArrayFilter( $fs, function ( $f ) use ( $controllerFilePreg ) {
+			return ( 1 === preg_match( $controllerFilePreg, $f ) );
 		}, false );
 
 		$subDirectoryNames = HELPER::ArrayFilter( $fs, function ( $f ) {
