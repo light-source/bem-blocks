@@ -197,7 +197,9 @@ abstract class CONTROLLER {
 	 * @return array
 	 */
 	final public function getTemplateArgs() {
-		return $this->_model->getArgs();
+		return array_merge( [
+			'_template' => self::GetTwigTemplate(),
+		], $this->_model->getArgs() );
 	}
 
 	/**
