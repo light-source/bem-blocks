@@ -83,7 +83,7 @@ abstract class CONTROLLER {
 			     ! is_subclass_of( $phpClass, self::class ) ) {
 
 				Settings::Instance()->callErrorCallback( [
-					'message' => "Class doesn't exist or doesn't child'",
+					'message' => "Class doesn't exist or doesn't child",
 					'args'    => $debugArgs,
 				] );
 
