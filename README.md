@@ -166,4 +166,4 @@ echo $firstHeaderC->render();
 
 Feel free to extend the Controller class functionality, e.g. you can add auto loading resources with using a built-in InitAll() method.
  
-[An example auto loading in WordPress](https://github.com/light-source/wp-theme-bones/blob/master/resources/Blocks/BLOCK.php)
+[An example auto loading in WordPress](https://github.com/light-source/wp-theme-bones/blob/master/resources/Std/CONTROLLER.php)
