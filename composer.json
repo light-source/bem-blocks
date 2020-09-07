@@ -4,7 +4,8 @@
   "description": "Helps create a structure for using BEM blocks.",
   "license": "GPL-2.0-only",
   "require": {
-    "twig/twig": "^3.0"
+    "twig/twig": "^3.0",
+    "ext-mbstring": "*"
   },
   "autoload": {
     "psr-4": {

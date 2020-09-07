@@ -41,6 +41,10 @@ final class Settings {
 	 * @var callable|null Will call with an $errors array
 	 */
 	private $_errorCallback;
+	/**
+	 * @var string
+	 */
+	private $_controllerSuffix;
 
 
 	//////// construct
@@ -61,6 +65,7 @@ final class Settings {
 		];
 		$this->_twigExtension      = '.twig';
 		$this->_errorCallback      = null;
+		$this->_controllerSuffix   = '_C';
 
 	}
 
@@ -125,6 +130,15 @@ final class Settings {
 		$this->_twigExtension = $twigExtension;
 	}
 
+	/**
+	 * @param string $controllerSuffix
+	 *
+	 * @return void
+	 */
+	public function setControllerSuffix( $controllerSuffix ) {
+		$this->_controllerSuffix = $controllerSuffix;
+	}
+
 
 	//////// getters
 
@@ -155,6 +169,13 @@ final class Settings {
 	 */
 	public function getTwigExtension() {
 		return $this->_twigExtension;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getControllerSuffix() {
+		return $this->_controllerSuffix;
 	}
 
 
