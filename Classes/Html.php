@@ -76,7 +76,7 @@ final class Html {
 
 		try {
 
-			$this->_twigLoader = new FilesystemLoader( $settings->getBlocksDirPath() );
+			$this->_twigLoader      = new FilesystemLoader( $settings->getBlocksDirPath() );
 			$this->_twigEnvironment = new Environment( $this->_twigLoader, $settings->getTwigArgs() );
 
 		} catch ( Exception $ex ) {
@@ -85,7 +85,10 @@ final class Html {
 			$this->_twigEnvironment = null;
 
 			Settings::Instance()->callErrorCallback( [
-				'exception' => $ex,
+				'message' => $ex->getMessage(),
+				'file'    => $ex->getFile(),
+				'line'    => $ex->getLine(),
+				'trace'   => $ex->getTraceAsString(),
 			] );
 
 
@@ -119,9 +122,11 @@ final class Html {
 			$html = '';
 
 			Settings::Instance()->callErrorCallback( [
-				'exception' => $ex,
-				'template'  => $template,
-				'args'      => $args,
+				'message'  => $ex->getMessage(),
+				'file'     => $ex->getFile(),
+				'line'     => $ex->getLine(),
+				'trace'    => $ex->getTraceAsString(),
+				'template' => $template,
 			] );
 
 		}
