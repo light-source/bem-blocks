@@ -110,7 +110,7 @@ class FirstHeader extends MODEL {
 	/**
 	 * @var string
 	 */
-	private $_value;
+	protected $_value;
 
 
 	//////// constructor
@@ -121,7 +121,9 @@ class FirstHeader extends MODEL {
 	 */
 	public function __construct() {
 
-		$this->_value = '';
+        parent::__construct();
+
+        $this->_value = '';
 
 	}
 
@@ -170,5 +172,7 @@ a) Feel free to extend the Controller class functionality, e.g. you can add auto
 
 b) The Model class has enabled by default an auto loading protected fields option.
 
-So you can just declare protected fields (don't need to init them in your construct,it already has done) and then fill them in your load method.
+So you can just declare protected fields and then fill them in your load method.
+(Don't need to init variables with simple types (int|float|bool|string|array) in your construct, it already has done).
+
 Also the Model->getArgs() method will be auto filling them, so don't need to do it manually.
