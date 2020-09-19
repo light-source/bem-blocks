@@ -126,7 +126,7 @@ class FirstHeader extends MODEL {
 	}
 
 
-	//////// implementation abstract methods
+	//////// override extend methods (optional)
 
 
 	/**
@@ -164,6 +164,11 @@ echo $firstHeaderC->render();
 
 ## Additional
 
-Feel free to extend the Controller class functionality, e.g. you can add auto loading resources with using a built-in InitAll() method.
+a) Feel free to extend the Controller class functionality, e.g. you can add auto loading resources with using a built-in InitAll() method.
  
 [An example auto loading in WordPress](https://github.com/light-source/wp-theme-bones/blob/master/resources/Std/CONTROLLER.php)
+
+b) The Model class has enabled by default an auto loading protected fields option.
+
+So you can just declare protected fields (don't need to init them in your construct,it already has done) and then fill them in your load method.
+Also the Model->getArgs() method will be auto filling them, so don't need to do it manually.
