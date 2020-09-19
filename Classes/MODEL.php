@@ -61,7 +61,15 @@ abstract class MODEL {
 			try {
 				// used static for child support
 				$property = new ReflectionProperty( static::class, $fieldName );
-			} catch ( Exception $e ) {
+			} catch ( Exception $ex ) {
+
+				Settings::Instance()->callErrorCallback( [
+					'message' => $ex->getMessage(),
+					'file'    => $ex->getFile(),
+					'line'    => $ex->getLine(),
+					'trace'   => $ex->getTraceAsString(),
+				] );
+
 				continue;
 			}
 
