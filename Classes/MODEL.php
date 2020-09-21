@@ -15,14 +15,16 @@ abstract class MODEL {
 	//////// fields
 
 
+	// fields have a double prefix for prevent a name conflict
+
 	/**
 	 * @var bool
 	 */
-	private $_isAutoLoadProtectedFields;
+	private $__isAutoLoadProtectedFields;
 	/**
 	 * @var array
 	 */
-	private $_fieldsInfo;
+	private $__childFieldsInfo;
 
 
 	//////// constructor
@@ -35,8 +37,8 @@ abstract class MODEL {
 	 */
 	public function __construct( $isAutoLoadProtectedFields = true ) {
 
-		$this->_isAutoLoadProtectedFields = $isAutoLoadProtectedFields;
-		$this->_fieldsInfo                = [];
+		$this->__isAutoLoadProtectedFields = $isAutoLoadProtectedFields;
+		$this->__childFieldsInfo           = [];
 
 		$this->_autoInitFields();
 
@@ -49,18 +51,21 @@ abstract class MODEL {
 	/**
 	 * @return array [ fieldName => [fieldType], fieldName => [fieldType1, fieldType2] ]
 	 */
-	final private function _getSelfFieldsInfo() {
+	final private function _getChildFieldsInfo() {
 
 		$fieldsInfo = [];
 
-		// get_object_vars return all visible in this context fields, so children public && protected and can return our (BASE) private fields
+		// get only child fields (public, protected), so ignore all self fields (public, protected, private)
 
-		$fieldNames = array_keys( get_object_vars( $this ) );
-		foreach ( $fieldNames as $fieldName ) {
+		$selfFieldNames  = array_keys( get_class_vars( self::class ) );
+		$childFieldNames = array_keys( get_class_vars( static::class ) );
+		$childFieldNames = array_diff( $childFieldNames, $selfFieldNames );
+
+		foreach ( $childFieldNames as $childFieldName ) {
 
 			try {
 				// used static for child support
-				$property = new ReflectionProperty( static::class, $fieldName );
+				$property = new ReflectionProperty( static::class, $childFieldName );
 			} catch ( Exception $ex ) {
 
 				Settings::Instance()->callErrorCallback( [
@@ -73,11 +78,9 @@ abstract class MODEL {
 				continue;
 			}
 
-			// we can't read private fields in children, get_object_vars can return our (BASE) private fields, ignore it
-			// also we'll ignore public
+			// ignore public fields (private fields don't available in the get_class_vars() method)
 
-			if ( $property->isPrivate() ||
-			     $property->isPublic() ) {
+			if ( $property->isPublic() ) {
 				continue;
 			}
 
@@ -98,7 +101,7 @@ abstract class MODEL {
 
 			}
 
-			$fieldsInfo[ $fieldName ] = $docTypes;
+			$fieldsInfo[ $childFieldName ] = $docTypes;
 
 		}
 
@@ -110,13 +113,13 @@ abstract class MODEL {
 	 */
 	final private function _autoInitFields() {
 
-		if ( ! $this->_isAutoLoadProtectedFields ) {
+		if ( ! $this->__isAutoLoadProtectedFields ) {
 			return;
 		}
 
-		$this->_fieldsInfo = $this->_getSelfFieldsInfo();
+		$this->__childFieldsInfo = $this->_getChildFieldsInfo();
 
-		foreach ( $this->_fieldsInfo as $fieldName => $fieldTypes ) {
+		foreach ( $this->__childFieldsInfo as $fieldName => $fieldTypes ) {
 
 			$defaultValue = null;
 
@@ -154,7 +157,7 @@ abstract class MODEL {
 
 		$args = [];
 
-		foreach ( $this->_fieldsInfo as $fieldName => $fieldTypes ) {
+		foreach ( $this->__childFieldsInfo as $fieldName => $fieldTypes ) {
 
 			$argName  = ltrim( $fieldName, '_' );
 			$argValue = $this->{$fieldName};
