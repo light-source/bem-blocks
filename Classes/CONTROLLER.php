@@ -222,7 +222,7 @@ abstract class CONTROLLER {
 	 */
 	final public function render( $args = [], $isPrint = false ) {
 
-		$args = array_merge( $this->getTemplateArgs(), $args );
+		$args = array_replace_recursive( $this->getTemplateArgs(), $args );
 
 		return Html::Instance()->render( self::GetTwigTemplate(), $args, $isPrint );
 	}
