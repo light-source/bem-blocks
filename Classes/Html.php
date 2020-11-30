@@ -64,6 +64,17 @@ final class Html {
 	}
 
 
+	//////// getters
+
+
+	/**
+	 * @return Environment|null Allows e.g extend a twig with adding a new filter
+	 */
+	public function getEnvironment() {
+		return $this->_twigEnvironment;
+	}
+
+
 	//////// methods
 
 
