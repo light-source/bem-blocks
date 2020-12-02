@@ -25,6 +25,10 @@ abstract class MODEL {
 	 * @var array
 	 */
 	private $__childFieldsInfo;
+	/**
+	 * @var array
+	 */
+	private $__external;
 
 
 	//////// constructor
@@ -39,6 +43,7 @@ abstract class MODEL {
 
 		$this->__isAutoLoadProtectedFields = $isAutoLoadProtectedFields;
 		$this->__childFieldsInfo           = [];
+		$this->__external                  = [];
 
 		$this->_autoInitFields();
 
@@ -155,7 +160,9 @@ abstract class MODEL {
 	 */
 	public function getArgs() {
 
-		$args = [];
+		$args = [
+			'_external' => [],
+		];
 
 		foreach ( $this->__childFieldsInfo as $fieldName => $fieldTypes ) {
 
@@ -163,7 +170,10 @@ abstract class MODEL {
 			$argValue = $this->{$fieldName};
 
 			if ( $argValue instanceof CONTROLLER ) {
-				$argValue = $argValue->getTemplateArgs();
+
+				$argValue                      = $argValue->getTemplateArgs();
+				$args['_external'][ $argName ] = [];
+
 			}
 
 			$args[ $argName ] = $argValue;
