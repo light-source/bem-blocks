@@ -5,7 +5,8 @@
   "license": "GPL-2.0-only",
   "require": {
     "twig/twig": "^3.0",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "php": "7.4"
   },
   "autoload": {
     "psr-4": {

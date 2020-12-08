@@ -93,9 +93,12 @@ abstract class MODEL {
 
 			$docTypes = [];
 
-			$docComment = $property->getDocComment();
+			$docComment   = $property->getDocComment();
+			$propertyType = $property->getType();
 
-			if ( $docComment ) {
+			if ( $propertyType ) {
+				$docTypes[] = $propertyType->getName();
+			} else if ( $docComment ) {
 
 				$matches = [];
 				preg_match( '/@var\s*([^\s]+)/i', $docComment, $matches );
@@ -141,6 +144,7 @@ abstract class MODEL {
 						$defaultValue = '';
 						break;
 					case 'array':
+					case 'array[]':
 					case 'string[]':
 					case 'int[]':
 					case 'float[]':
