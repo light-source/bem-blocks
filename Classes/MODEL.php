@@ -129,28 +129,36 @@ abstract class MODEL {
 
 		foreach ( $this->__childFieldsInfo as $fieldName => $fieldTypes ) {
 
+			// ignore fields without a type
+			if ( ! $fieldTypes ) {
+				continue;
+			}
+
 			$defaultValue = null;
 
-			if ( $fieldTypes ) {
-				switch ( $fieldTypes[0] ) {
-					case 'int':
-					case 'float':
-						$defaultValue = 0;
-						break;
-					case 'bool':
-						$defaultValue = false;
-						break;
-					case 'string':
-						$defaultValue = '';
-						break;
-					case 'array':
-					case 'array[]':
-					case 'string[]':
-					case 'int[]':
-					case 'float[]':
-						$defaultValue = [];
-						break;
-				}
+			switch ( $fieldTypes[0] ) {
+				case 'int':
+				case 'float':
+					$defaultValue = 0;
+					break;
+				case 'bool':
+					$defaultValue = false;
+					break;
+				case 'string':
+					$defaultValue = '';
+					break;
+				case 'array':
+				case 'array[]':
+				case 'string[]':
+				case 'int[]':
+				case 'float[]':
+					$defaultValue = [];
+					break;
+			}
+
+			// ignore fields with a custom type (null by default)
+			if ( is_null( $defaultValue ) ) {
+				continue;
 			}
 
 			$this->{$fieldName} = $defaultValue;
