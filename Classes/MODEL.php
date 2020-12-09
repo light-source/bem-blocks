@@ -17,18 +17,10 @@ abstract class MODEL {
 
 	// fields have a double prefix for prevent a name conflict
 
-	/**
-	 * @var bool
-	 */
-	private $__isAutoLoadProtectedFields;
-	/**
-	 * @var array
-	 */
-	private $__childFieldsInfo;
-	/**
-	 * @var array
-	 */
-	private $__external;
+	private bool $__isAutoLoadProtectedFields;
+	private array $__childFieldsInfo;
+	private array $__external;
+	private bool $__isLoaded;
 
 
 	//////// constructor
@@ -44,6 +36,7 @@ abstract class MODEL {
 		$this->__isAutoLoadProtectedFields = $isAutoLoadProtectedFields;
 		$this->__childFieldsInfo           = [];
 		$this->__external                  = [];
+		$this->__isLoaded                  = false;
 
 		$this->_autoInitFields();
 
@@ -167,13 +160,15 @@ abstract class MODEL {
 
 	}
 
-	/**
-	 * @return array
-	 */
-	public function getArgs() {
+	final protected function _load(): void {
+		$this->__isLoaded = true;
+	}
+
+	public function getArgs(): array {
 
 		$args = [
 			'_external' => [],
+			'_isLoaded' => $this->__isLoaded,
 		];
 
 		foreach ( $this->__childFieldsInfo as $fieldName => $fieldTypes ) {
