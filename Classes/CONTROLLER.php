@@ -8,27 +8,21 @@ namespace LightSource\BemBlocks;
  */
 abstract class CONTROLLER {
 
-
 	//////// static fields
-
 
 	/**
 	 * @var array
 	 */
 	private static $_Classes = [];
 
-
 	//////// fields
-
 
 	/**
 	 * @var MODEL
 	 */
 	private $_model;
 
-
 	//////// constructor
-
 
 	/**
 	 * CONTROLLER constructor.
@@ -39,9 +33,7 @@ abstract class CONTROLLER {
 		$this->_model = $model;
 	}
 
-
 	//////// static methods
-
 
 	/**
 	 * @param string $directory
@@ -150,15 +142,16 @@ abstract class CONTROLLER {
 
 	}
 
-
-	//////// getters
-
-
 	/**
+	 * @param string $class Can provide another than static::class (e.g. parent::class)
+	 *
 	 * @return string Path to a twig template (relative to Settings->_blocksDirPath)
 	 */
-	final public static function GetTwigTemplate() {
+	final public static function GetTwigTemplate( string $class = '' ) {
 
+		$class            = ! $class ?
+			static::class :
+			$class;
 		$controllerSuffix = Settings::Instance()->getControllerSuffix();
 
 		/**
@@ -168,7 +161,7 @@ abstract class CONTROLLER {
 		 * 3. getting without a controller suffix
 		 */
 
-		$fullClassName = str_replace( Settings::Instance()->getBlocksDirNamespace() . '\\', '', static::class );
+		$fullClassName = str_replace( Settings::Instance()->getBlocksDirNamespace() . '\\', '', $class );
 		$fullClassName = substr( $fullClassName, 0, mb_strlen( $fullClassName ) - mb_strlen( $controllerSuffix ) );
 
 		$shortName = explode( '\\', $fullClassName );
@@ -193,10 +186,12 @@ abstract class CONTROLLER {
 		return $twigTemplatePath . DIRECTORY_SEPARATOR . $twigTemplateName;
 	}
 
+	//////// getters
+
 	/**
 	 * @return array
 	 */
-	final public function getTemplateArgs() {
+	public function getTemplateArgs() {
 		return array_merge( [
 			'_template' => self::GetTwigTemplate(),
 		], $this->_model->getArgs() );
@@ -210,9 +205,7 @@ abstract class CONTROLLER {
 		return $this->_model;
 	}
 
-
 	//////// methods
-
 
 	/**
 	 * @param array $args
