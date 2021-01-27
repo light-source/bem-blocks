@@ -147,7 +147,7 @@ abstract class CONTROLLER {
 	 *
 	 * @return string Path to a twig template (relative to Settings->_blocksDirPath)
 	 */
-	final public static function GetTwigTemplate( string $class = '' ) {
+	public static function GetTwigTemplate( string $class = '' ) {
 
 		$class            = ! $class ?
 			static::class :
@@ -192,8 +192,9 @@ abstract class CONTROLLER {
 	 * @return array
 	 */
 	public function getTemplateArgs() {
+		// using static for child support
 		return array_merge( [
-			'_template' => self::GetTwigTemplate(),
+			'_template' => static::GetTwigTemplate(),
 		], $this->_model->getArgs() );
 	}
 
@@ -217,7 +218,8 @@ abstract class CONTROLLER {
 
 		$args = array_replace_recursive( $this->getTemplateArgs(), $args );
 
-		return Html::Instance()->render( self::GetTwigTemplate(), $args, $isPrint );
+		// using static for child support
+		return Html::Instance()->render( static::GetTwigTemplate(), $args, $isPrint );
 	}
 
 }
