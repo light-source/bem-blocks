@@ -96,10 +96,7 @@ abstract class CONTROLLER {
 
 	}
 
-	/**
-	 * @return void
-	 */
-	final private static function _LoadAll() {
+	final private static function _LoadAll(): void {
 
 		$directory = Settings::Instance()->getBlocksDirPath();
 		$namespace = Settings::Instance()->getBlocksDirNamespace();
