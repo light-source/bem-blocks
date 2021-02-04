@@ -122,6 +122,31 @@ abstract class CONTROLLER {
 
 	}
 
+	final private static function _ArrayMergeRecursive( array $args1, array $args2 ): array {
+
+		foreach ( $args2 as $key => $value ) {
+
+			if ( intval( $key ) === $key ) {
+
+				$args1[] = $value;
+
+				continue;
+			}
+
+			// recursive sub-merge for internal arrays
+			if ( is_array( $value ) &&
+			     key_exists( $key, $args1 ) &&
+			     is_array( $args1[ $key ] ) ) {
+				$value = self::_ArrayMergeRecursive( $args1[ $key ], $value );
+			}
+
+			$args1[ $key ] = $value;
+
+		}
+
+		return $args1;
+	}
+
 	/**
 	 * @return void Can be used for a block resources registration , e.g. wordpress hooks, etc..
 	 */
@@ -216,7 +241,7 @@ abstract class CONTROLLER {
 	 */
 	final public function render( $args = [], $isPrint = false ) {
 
-		$args = array_replace_recursive( $this->getTemplateArgs(), $args );
+		$args = self::_ArrayMergeRecursive( $this->getTemplateArgs(), $args );
 
 		// using static for child support
 		return Html::Instance()->render( static::GetTwigTemplate(), $args, $isPrint );
